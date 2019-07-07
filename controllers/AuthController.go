@@ -15,9 +15,8 @@ import (
 
 // Struct type authController -
 type authController struct {
-	LayoutHelper
-	//FormValidator
-	flash FlashMsgHelper
+	LayoutManager
+	flash FlashMessenger
 }
 
 // to fill with the flash message values
@@ -48,7 +47,6 @@ func (this *authController) Signup(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/signup", http.StatusSeeOther)
 			return
 		}
-		this.flash.Set(&w, fm{"message": "Username and/or password do not match", "type": "danger"})
 		this.Login(w, r) // redirect to login without 302 status, to keep the request state
 	}
 	PageData["PageTitle"] = "Signup"

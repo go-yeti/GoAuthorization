@@ -70,11 +70,10 @@
               </div>
            </div>
         </nav>
-        {{if .FlashMessage }}
-            <div class="alert alert-{{.FlashType}}" role="alert">  
-                <span>{{.FlashMessage}}</span>
-            </div>
-        {{end}}
+            
+        <!-- Flashmessage -->
+        {{ .FlashMessage | flash }} 
+
          <!-- Content -->
          <div class="content">
             <div class="title">

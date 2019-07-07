@@ -11,7 +11,7 @@ import (
 
 // Struct type adminController -
 type adminController struct {
-	LayoutHelper
+	LayoutManager
 }
 
 // AdminController function -

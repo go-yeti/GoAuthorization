@@ -13,9 +13,9 @@ import (
 var PageData map[string]interface{}
 
 // Struct type layoutHelper - offer DRY solutions to common controllers actions
-type LayoutHelper struct {
-	ViewHelper
-	flashMsg FlashMsgHelper
+type LayoutManager struct {
+	ViewFuncProvider
+	flashMsg FlashMessenger
 }
 
 // init function - data and process initialization
@@ -26,7 +26,7 @@ func init() {
 }
 
 // Render method -
-func (this *LayoutHelper) Render(w http.ResponseWriter, r *http.Request, pageData map[string]interface{}, views ...string) {
+func (this *LayoutManager) Render(w http.ResponseWriter, r *http.Request, pageData map[string]interface{}, views ...string) {
 	this.concatPath(views)
 
 	tpl, e := template.New("layout").Funcs(template.FuncMap{
@@ -46,7 +46,7 @@ func (this *LayoutHelper) Render(w http.ResponseWriter, r *http.Request, pageDat
 }
 
 // concatProjPath method - for testing purposes, adding the absolute path to the templates
-func (this *LayoutHelper) concatPath(views []string) []string {
+func (this *LayoutManager) concatPath(views []string) []string {
 	path := os.Getenv("GOPATH")
 	for k, view := range views {
 		views[k] = path + "/src/" + conf.Env["project_name"] + "/templates/" + view

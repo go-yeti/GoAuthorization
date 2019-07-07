@@ -11,10 +11,10 @@ import (
 )
 
 // Struct type flashMessenger -
-type FlashMsgHelper struct{}
+type FlashMessenger struct{}
 
 //  Set function - it creates the cookie and set the flash message
-func (this *FlashMsgHelper) Set(w *http.ResponseWriter, msg map[string]string) {
+func (this *FlashMessenger) Set(w *http.ResponseWriter, msg map[string]string) {
 	jsMsg, _ := json.Marshal(msg)
 
 	c := http.Cookie{ // creates the cookie
@@ -25,7 +25,7 @@ func (this *FlashMsgHelper) Set(w *http.ResponseWriter, msg map[string]string) {
 }
 
 // Get method - it prints the message stored in the cookie
-func (this *FlashMsgHelper) Get(w http.ResponseWriter, r *http.Request) (flshMsg *map[string]string) {
+func (this *FlashMessenger) Get(w http.ResponseWriter, r *http.Request) (flshMsg *map[string]string) {
 	c, e := r.Cookie("flashmessenger")
 	if e != nil { // check for errors - check if the cookie with the specific name is setted
 		//log.Write("error", e.Error(), log.Trace())
