@@ -4,6 +4,7 @@ package session
 
 import (
 	conf "GoAuthorization/configs"
+	log "GoAuthorization/libs/logger"
 	. "GoAuthorization/models"
 	. "GoAuthorization/models/dao"
 	"github.com/satori/go.uuid"
@@ -26,6 +27,7 @@ func SessionManager() *sessionManager {
 func (this *sessionManager) Start(w http.ResponseWriter, r *http.Request) string {
 	c, e := r.Cookie("session") // create the cookie
 	if e != nil {
+		log.Write("notice", "Creating the sesion cookie "+e.Error(), log.Trace())
 		sID := uuid.NewV4() // create the universal unique id
 		c = &http.Cookie{
 			Name:  "session",
