@@ -3,6 +3,7 @@
 package controllers
 
 import (
+	. "GoAuthorization/controllers/helpers"
 	. "GoAuthorization/libs/layout"
 	. "GoAuthorization/libs/session"
 	. "GoAuthorization/models"
@@ -15,7 +16,7 @@ import (
 // Struct type authController -
 type authController struct {
 	LayoutHelper
-	FormHelper
+	//FormValidator
 	flash FlashMsgHelper
 }
 
@@ -31,8 +32,8 @@ func AuthController() *authController {
 func (this *authController) Signup(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost { // if request was post process the form info
 		// filtering form inputs
-		if formErrs := this.FormFilter(r); len(formErrs) > 0 {
-			this.flash.Set(&w, fm{"message": this.CheckFormErrors(formErrs, w), "type": "danger"})
+		if formErrs := FormHelper.Filter(r); len(formErrs) > 0 {
+			this.flash.Set(&w, fm{"message": FormHelper.ErrString(formErrs, w), "type": "danger"})
 			http.Redirect(w, r, "/signup", http.StatusSeeOther)
 			return
 		}
