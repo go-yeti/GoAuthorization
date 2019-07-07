@@ -11,10 +11,13 @@ import (
 // Struct type ViewHelper -
 type ViewHelper struct{}
 
+// Flash method - method receives a non obligatory param in form of a variadic to
+// supress errors of layout requirements, converts the value into a map again and
+// print the message accordingly with the website sample layout
 func (this *ViewHelper) Flash(msg ...interface{}) (flash template.HTML) {
-	m := msg[0].(*map[string]string)
-	if m != nil {
-		fMsg := *m
+	m := msg[0].(*map[string]string) // converts it back to a map
+	if m != nil {                    // check if not nil - necessary for empty fms
+		fMsg := *m // get the value
 		flash = template.HTML("<div class='alert alert-" + fMsg["type"] + " role='alert'>" +
 			"<span>" + fMsg["message"] + "</span>" +
 			"</div>")
