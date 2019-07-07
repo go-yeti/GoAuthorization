@@ -5,7 +5,6 @@ package layout
 import (
 	"errors"
 	"net/http"
-	"net/url"
 	"regexp"
 )
 
@@ -29,7 +28,9 @@ var messages = map[string]string{
 }
 
 // FilterEmail method -
-func (this *FormHelper) FormFilter(fields url.Values) (e []error) {
+func (this *FormHelper) FormFilter(r *http.Request) (e []error) {
+	_ = r.ParseForm()
+	fields := r.Form
 	for frule, patt := range rules {
 		for field, val := range fields {
 			if frule == field { // if field rule = field

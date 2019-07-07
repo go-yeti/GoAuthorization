@@ -31,8 +31,7 @@ func AuthController() *authController {
 func (this *authController) Signup(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost { // if request was post process the form info
 		// filtering form inputs
-		_ = r.ParseForm()
-		if formErrs := this.FormFilter(r.Form); len(formErrs) > 0 {
+		if formErrs := this.FormFilter(r); len(formErrs) > 0 {
 			this.flash.Set(&w, fm{"message": this.CheckFormErrors(formErrs, w), "type": "danger"})
 			http.Redirect(w, r, "/signup", http.StatusSeeOther)
 			return
