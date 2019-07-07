@@ -78,7 +78,7 @@ func (this *authController) Login(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// start session and retrieves the session id
-		sid := SessionHelper().Start(w, r)
+		sid := SessionManager().Start(w, r)
 		// store session
 		SessionDAO().Create(&Session{SID: sid, Email: user.Email, LastActivity: time.Now()})
 
@@ -95,7 +95,7 @@ func (this *authController) Login(w http.ResponseWriter, r *http.Request) {
 
 // Login method -
 func (this *authController) Logout(w http.ResponseWriter, r *http.Request) {
-	sid := SessionHelper().Close(w, r)
+	sid := SessionManager().Close(w, r)
 	if len(sid) > 0 {
 		SessionDAO().Remove(sid)
 	}
