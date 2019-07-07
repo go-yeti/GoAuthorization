@@ -16,8 +16,11 @@ import (
 type authController struct {
 	LayoutHelper
 	FormHelper
-	flashMsg FlashMsgHelper
+	flash FlashMsgHelper
 }
+
+// to fill with the flash message values
+type fm map[string]string
 
 // AuthController function -
 func AuthController() *authController {
@@ -30,7 +33,7 @@ func (this *authController) Signup(w http.ResponseWriter, r *http.Request) {
 		// filtering form inputs
 		_ = r.ParseForm()
 		if formErrs := this.FormFilter(r.Form); len(formErrs) > 0 {
-			this.flashMsg.Set(&w, this.CheckFormErrors(formErrs, w))
+			this.flash.Set(&w, fm{"message": this.CheckFormErrors(formErrs, w), "type": "danger"})
 			http.Redirect(w, r, "/signup", http.StatusSeeOther)
 			return
 		}
@@ -41,10 +44,11 @@ func (this *authController) Signup(w http.ResponseWriter, r *http.Request) {
 			Role:     r.FormValue("role")}
 
 		if e := UserDAO().Create(&user); e != nil { // check if email is unique
-			this.flashMsg.Set(&w, e.Error())
+			this.flash.Set(&w, fm{"message": e.Error(), "type": "danger"})
 			http.Redirect(w, r, "/signup", http.StatusSeeOther)
 			return
 		}
+		this.flash.Set(&w, fm{"message": "Username and/or password do not match", "type": "danger"})
 		this.Login(w, r) // redirect to login without 302 status, to keep the request state
 	}
 	PageData["PageTitle"] = "Signup"
@@ -62,7 +66,7 @@ func (this *authController) Login(w http.ResponseWriter, r *http.Request) {
 		// check user exists and retrieve its password
 		user, _ := UserDAO().GetByEmail(email)
 		if !(len(user.Email) > 0) {
-			this.flashMsg.Set(&w, "Username and/or password do not match")
+			this.flash.Set(&w, fm{"message": "Username and/or password do not match", "type": "danger"})
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
@@ -70,7 +74,7 @@ func (this *authController) Login(w http.ResponseWriter, r *http.Request) {
 		// compare the password
 		e := bcrypt.CompareHashAndPassword(user.Password, []byte(pass))
 		if e != nil {
-			this.flashMsg.Set(&w, "Username and/or password do not match")
+			this.flash.Set(&w, fm{"message": "Username and/or password do not match", "type": "danger"})
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}

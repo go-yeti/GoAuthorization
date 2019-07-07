@@ -30,12 +30,15 @@ func (this *LayoutHelper) Render(w http.ResponseWriter, r *http.Request, pageDat
 	this.concatPath(views)
 
 	tpl, e := template.New("layout").Funcs(template.FuncMap{
+		"flash":   this.Flash,
 		"fdate":   this.FormatDate,
 		"toUpper": this.ToUpper,
 		"toLower": this.ToLower,
 		"ucFirst": this.UCFirst,
 	}).ParseFiles(views...)
+	// include possible flash message
 	pageData["FlashMessage"] = this.flashMsg.Get(w, r)
+	// execute template
 	e = tpl.Execute(w, pageData)
 	if e != nil {
 		log.Write("Error", e.Error(), log.Trace())

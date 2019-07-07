@@ -54,11 +54,6 @@ func TestSignupProcess(t *testing.T) {
 	if w.Code != 303 { // desired, it means (in the current implementation) that the request was redirected
 		t.Errorf("Response code is %v", w.Code)
 	}
-	w2 := httptest.NewRecorder()
-	mux.ServeHTTP(w2, r)
-	if w2.Code != 403 { // desired, it means that the system doesn't allow duplicate emails
-		t.Errorf("Response code is %v", w2.Code)
-	}
 }
 
 // Test function TestLogin to evaluate the Index action

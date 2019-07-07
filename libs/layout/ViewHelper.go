@@ -3,12 +3,24 @@
 package layout
 
 import (
+	"html/template"
 	"strings"
 	"time"
 )
 
 // Struct type ViewHelper -
 type ViewHelper struct{}
+
+func (this *ViewHelper) Flash(msg ...interface{}) (flash template.HTML) {
+	m := msg[0].(*map[string]string)
+	if m != nil {
+		fMsg := *m
+		flash = template.HTML("<div class='alert alert-" + fMsg["type"] + " role='alert'>" +
+			"<span>" + fMsg["message"] + "</span>" +
+			"</div>")
+	}
+	return
+}
 
 // FormatDate method - format a date
 func (this *ViewHelper) FormatDate(t time.Time) string {
