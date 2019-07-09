@@ -85,7 +85,6 @@ func TestLoginProcess(t *testing.T) {
 	if w.Code != 303 { // desired, it means (in the current implementation) that the request was redirected
 		t.Errorf("Response code is %v", w.Code)
 	}
-	tearDown()
 }
 
 // Test function TestLogout to evaluate the Index action
@@ -101,4 +100,5 @@ func TestLogout(t *testing.T) {
 	if writer.Code != 303 { // check the response for errors
 		t.Errorf("Response code is %v", writer.Code)
 	}
+	tearDown()
 }

@@ -34,3 +34,18 @@ func TestStart(t *testing.T) {
 		t.Errorf("Cookie object not created. The session ID is: %s", sID)
 	}
 }
+
+// Test function TestGetSession to evaluate the GetSession
+func TestGetSession(t *testing.T) {
+	t.Skip("Skipping...")
+}
+
+// Test function TestUser to evaluate the User
+func TestUser(t *testing.T) {
+	t.Skip("Skipping...")
+}
+
+// Test function TestClose to evaluate the Close
+func TestClose(t *testing.T) {
+	t.Skip("Skipping...")
+}
