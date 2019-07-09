@@ -32,7 +32,7 @@ func (this *authController) Signup(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost { // if request was post process the form info
 		// filtering form inputs
 		if formErrs := FormHelper.Filter(r); len(formErrs) > 0 {
-			this.flash.Set(&w, fm{"message": FormHelper.ErrString(formErrs, w), "type": "danger"})
+			this.flash.Set(&w, fm{"message": FormHelper.ErrString(formErrs), "type": "danger"})
 			http.Redirect(w, r, "/signup", http.StatusSeeOther)
 			return
 		}
