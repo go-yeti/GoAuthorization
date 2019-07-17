@@ -49,7 +49,7 @@ func (this *LayoutManager) Render(w http.ResponseWriter, r *http.Request, pageDa
 func (this *LayoutManager) concatPath(views []string) []string {
 	path := os.Getenv("GOPATH")
 	for k, view := range views {
-		views[k] = path + "/src/" + conf.Env["project_name"] + "/templates/" + view
+		views[k] = path + "/src/" + conf.Env["project_name"] + "/views/" + view
 	}
 	return views
 }
